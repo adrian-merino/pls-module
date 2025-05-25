@@ -1,1 +1,0 @@
-from .opener import open_file
