@@ -1,1 +1,2 @@
-from .opener import open_file
+from .opener import DataManager
+from .pls import PLSModel

@@ -1,7 +1,8 @@
-from pls_module import open_file
+from pls_module import PLSModeler
 
-def main():
-    print(open_file("test2.csv"))
+def create_pls_model():
+    pls_modeler = PLSModeler("test2.csv")
+    return pls_modeler.give_model()
 
 if __name__ == "__main__":
-    main()
+    print(create_pls_model())

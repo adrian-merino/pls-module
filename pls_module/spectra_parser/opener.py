@@ -1,5 +1,13 @@
 import pandas as pd
 
-def open_file(file_path):
-    df = pd.read_csv(file_path)
-    return df
+class DataManager:
+    def __init__(self, filepath):
+        self.filepath = filepath
+    
+    def open_file(self, trim=0):
+        df = pd.read_csv(self.filepath)
+
+        if trim:
+            return df.iloc[:, 9:]
+            # df = trimmed_df.iloc[0, :].to_list()
+        return df

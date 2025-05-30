@@ -1,1 +1,2 @@
-from .spectra_parser import open_file
+from .plsmodule import PLSModeler
+from .spectra_parser import DataManager, PLSModel
