@@ -1,4 +1,8 @@
-from .spectra_parser import DataManager, PLSModel
+from .spectra_parser import DataManager, DataSelector, DataOrganizer, PLSModel
+from .modeler import ModelCreator
+from .preprocessing import Preprocessor
+
+from itertools import combinations, permutations
 
 class PLSModeler:
     def __init__ (self, file_path):
@@ -13,3 +17,92 @@ class PLSModeler:
             self.data_y,
             n_comp
         )
+    
+class IPLSModeler:
+    def __init__ (self, file_path=0):
+        self.file_path = file_path
+
+        self.data_organizer = DataOrganizer(self.file_path)
+        self.data_filterer = DataSelector()
+        self.preprocessor = Preprocessor()
+        self.model_creator = ModelCreator()
+        
+        self.org_xblock = None
+        self.org_yblock = None
+
+        self.working_xblock = None
+        self.working_yblock = None
+
+        # settings
+        self.pts_list = []
+        self.regions_list = []
+        self.preproc_list = []
+
+        # IPLS results
+        self.settings_list = []
+        self.results_list = []
+
+    def organize_data(self):
+        self.data_organizer.open_file()
+        self.data_organizer.org_data()
+        self.org_xblock = self.data_organizer.give_xblock()
+        self.org_yblock = self.data_organizer.give_yblock()
+        self.data_filterer.load_data(self.org_xblock, self.org_yblock)
+        self.working_xblock = self.org_xblock
+        self.working_yblock = self.org_yblock
+        
+
+    def do_preprocessing(self, preproc_list):
+        if preproc_list:
+            self.preproc_list = preproc_list
+            self.preprocessor.load_data(self.working_xblock)
+            self.working_xblock = self.preprocessor.preprocess(preproc_list)
+
+    # for setting up lists
+    def pick_preproc(self, picked_preproc):
+        self.preproc_list = picked_preproc
+        return
+        
+    def select_region(self, region_list):
+        if region_list:
+            self.regions_list = region_list
+            self.data_filterer.pick_regions(self.regions_list)
+            self.working_xblock = self.data_filterer.give_xblock()
+    
+    def remove_point(self, points_list):
+        if points_list:
+            self.pts_list = points_list
+            self.data_filterer.remove_samples(self.pts_list, True)
+            self.working_xblock = self.data_filterer.give_xblock()
+            self.working_yblock = self.data_filterer.give_yblock()
+
+    # main funcs
+    def get_ipls_settings(self):
+
+        # Check all combinations of removed points
+        for pt_num in range (0, len(self.pts_list)+1):
+            for pt_comb in combinations(self.pts_list, pt_num):
+            
+                for region_num in range(0, len(self.regions_list)+1):
+                    for region_comb in combinations(self.regions_list, region_num):
+    
+                        for preproc_num in range(0, len(self.preproc_list)+1):
+                            for preproc_comb in permutations(self.preproc_list, preproc_num):
+                                if all([region_comb, preproc_comb]):
+                                    self.settings_list.append([pt_comb, region_comb, preproc_comb])
+        return self.settings_list
+
+    def get_ipls_results(self):
+        for settings in self.settings_list:
+            self.organize_data()
+            self.select_region(settings[1])
+            
+            self.remove_point(settings[0])
+            self.do_preprocessing(settings[2])
+            
+            self.model_creator.load_data(self.working_xblock, self.working_yblock)
+            results = (self.model_creator.create_pls_model(), settings)
+            
+            print(results)
+            self.results_list.append(results)
+        return self.results_list

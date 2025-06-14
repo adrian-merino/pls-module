@@ -180,6 +180,29 @@ test = ["hypothesis (>=6.46.1)", "pytest (>=7.3.2)", "pytest-xdist (>=2.2.0)"]
 xml = ["lxml (>=4.9.2)"]
 
 [[package]]
+name = "pybaselines"
+version = "1.2.0"
+description = "A library of algorithms for the baseline correction of experimental data."
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "pybaselines-1.2.0-py3-none-any.whl", hash = "sha256:c485354be262ed3f5472d49b13240ce273aeb7187b08e914649e7019e22104fa"},
+    {file = "pybaselines-1.2.0.tar.gz", hash = "sha256:60b191fc3f9088ccd763b51cac16a990fa8198da7392c15d586453d40b837d8d"},
+]
+
+[package.dependencies]
+numpy = ">=1.20"
+scipy = ">=1.6"
+
+[package.extras]
+dev = ["build", "bump-my-version", "matplotlib", "numba (>=0.53)", "numpydoc", "pentapy (>=1.1)", "pytest (>=6.0)", "ruff", "sphinx", "sphinx-copybutton", "sphinx-gallery (>=0.16)", "sphinx-rtd-theme", "twine"]
+docs = ["matplotlib", "numpydoc", "sphinx", "sphinx-copybutton", "sphinx-gallery (>=0.16)", "sphinx-rtd-theme"]
+full = ["numba (>=0.53)", "pentapy (>=1.1)"]
+release = ["build", "bump-my-version", "twine"]
+test = ["pytest (>=6.0)", "ruff"]
+
+[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 description = "Extensions to the standard Python datetime module"
@@ -364,4 +387,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "3abb54a85849fb43aa70ec02278729d76ac967d58e0618c0fff496c62a58b2bb"
+content-hash = "d73d0963745676c715d395d2564ecbeb30e6c49a0eb5de7c82770b4c76b09b15"
