@@ -11,6 +11,17 @@ Python package for IPLS using identified peak areas in the spectra
 ```
 poetry run python src/main.py
 ```
+  * Sample output for each model should have the format below:
+```
+<current model> oo <number of total models> (
+  <R2 calibration from scikit-learn>,
+  <R2 cross-validation from scikit-learn>,
+  <R2 calibration from pearson correlation test>,
+  <R2 cross-validation from pearson correlation test>,
+  ) 
+  with settings of 
+  [Data and Model Configuration settings]
+```
 
 ### Installation
   * Run the ff to install the package:
