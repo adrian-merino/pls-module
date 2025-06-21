@@ -14,7 +14,7 @@ def list_pls_models_test(file_path, disable_warnings=False):
     a.organize_data()
 
     a.select_region([[5300, 4700], [6600, 6390]])
-    a.pick_preproc(["SG", "SNV", "mean center", "WLSB"])
+    a.pick_preproc(["SG", "SNV", "MC",])
 
     a.get_ipls_settings()
     a.get_ipls_results()

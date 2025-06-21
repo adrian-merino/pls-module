@@ -1,4 +1,4 @@
-from pandas import pd
+import pandas as pd
 
 class DataSelector:
     """Class for filtering data for samples or wavenumbers to be removed"""

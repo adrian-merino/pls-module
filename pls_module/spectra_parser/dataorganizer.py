@@ -17,7 +17,6 @@ class DataOrganizer:
         """ Opens a .csv file and convert it into a pandas dataframe
         """
         self.raw_df = pd.read_csv(self.file_path)
-        self.raw_df = self.raw_df.loc[self.raw_df['Gum Product'] == 795]
 
     def org_data(self):
         """ Organizes data, ready for further transformation or modelling
@@ -28,13 +27,12 @@ class DataOrganizer:
         if not all(self.raw_df):
             return "no data found"
         else:
-            
             self.trimmed_df = self.raw_df.set_index("Label").iloc[:, 7:2081].sort_index()
             self.trimmed_df.columns = [round(float(wn), 2) for wn in self.trimmed_df.columns.astype(float)]
             self.y_block = self.raw_df.set_index("Label").iloc[:,2081:2084].sort_index()
             
-            self.wavenumbers_list = self.trimmed_df.columns.to_list() # list of wavenumbers used
-            self.absorbance_list = self.trimmed_df.iloc[0, :].to_list() # just getting one sample here
+            # self.wavenumbers_list = self.trimmed_df.columns.to_list() # list of wavenumbers used
+            #self.absorbance_list = self.trimmed_df.iloc[0, :].to_list() # just getting one sample here
 
     def give_abs(self):
         """ Give the absorbance values of spectral data

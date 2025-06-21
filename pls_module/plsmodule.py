@@ -47,7 +47,7 @@ class IPLSModeler:
         self.results_list = []
 
     def organize_data(self):
-        """Organizes data read for further transformation and modelling"""
+        """ Organizes data read for further transformation and modelling"""
         self.data_organizer.open_file()
         self.data_organizer.org_data()
         self.org_xblock = self.data_organizer.give_xblock()
