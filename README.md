@@ -28,7 +28,7 @@ poetry run python main.py
   ```
   pip install dist/<file name of wheel file>
   ```
-  * To test if installation was successful, you can try to create an `IPLSModeler` object in python
+  * To test if installation was successful, you can try to create an `IPLSModeler` instance in python
   ```
   a = IPLSModeler()
   ```
