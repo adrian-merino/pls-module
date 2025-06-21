@@ -6,8 +6,10 @@ Python package for IPLS using identified peak areas in the spectra
   * The package also uses the `brukeropusreader` package for opening spectra files with `.0` file extension.
 
 ### Testing
-  * Run `poetry run python main.py` on main directory.
-
+  * Run the ff on main directory. It should give out the performance metrics, along with the settings, for each model created.
+```
+poetry run python main.py
+```
 
 ### Dependencies
  * scipy
