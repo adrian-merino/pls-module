@@ -12,6 +12,16 @@ Python package for IPLS using identified peak areas in the spectra
 poetry run python src/main.py
 ```
 
+### Installation
+  * Run the ff to install the package:
+  ```
+  pip install dist/<file name of wheel file>
+  ```
+  * To test if installation was successful, you can try to create an `IPLSModeler` object in python
+  ```
+  a = IPLSModeler()
+  ```
+
 ### Dependencies
  * scipy
  * pandas
