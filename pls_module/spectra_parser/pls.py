@@ -21,6 +21,5 @@ class PLSModel:
         # Calculate scores
         r2 = r2_score(y, y_cv)
         mse = mean_squared_error(y, y_cv)
-        #rpd = y.std()/np.sqrt(mse)
 
         return (y_cv, r2, mse)

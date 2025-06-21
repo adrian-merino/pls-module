@@ -30,9 +30,6 @@ class DataOrganizer:
             self.trimmed_df = self.raw_df.set_index("Label").iloc[:, 7:2081].sort_index()
             self.trimmed_df.columns = [round(float(wn), 2) for wn in self.trimmed_df.columns.astype(float)]
             self.y_block = self.raw_df.set_index("Label").iloc[:,2081:2084].sort_index()
-            
-            # self.wavenumbers_list = self.trimmed_df.columns.to_list() # list of wavenumbers used
-            #self.absorbance_list = self.trimmed_df.iloc[0, :].to_list() # just getting one sample here
 
     def give_abs(self):
         """ Give the absorbance values of spectral data
