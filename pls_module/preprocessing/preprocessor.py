@@ -7,30 +7,46 @@ from scipy.sparse.linalg import spsolve
 from scipy.linalg import cholesky
 
 class Preprocessor:
+    """ Class for handling the preprocessing step to transform data prior modelling"""
     def __init__(self):
         self.working_data = None
 
     def load_data(self, data):
+        """ Func for loading data in the Preprocessor object
+
+        :param data: x-block for preprocessing, dataframe
+        """
         self.working_data = data
 
     def give_xblock(self):
+        """ Returns filtered x-block
+
+        :return: x-block
+        :rtype: dataframe
+        """
         return self.working_data
 
-    # used for dataframes
     def apply_sg(self, smooth_pts=15, poly_order=2, deriv_order=2):
-        return self.working_data.iloc[:,1:].apply(
+        """ Applies Savitsky-Golay Filter 
+
+        :param smooth_pts: number of smoothing points per iteration, int
+        :param poly_order: order of polynomial used for fitting, int
+        :param deriv_order: derivative order number used for filtering, int
+        """
+        self.working_data = self.working_data.iloc[:,1:].apply(
             lambda x: savgol_filter(np.array(x), smooth_pts, poly_order, deriv_order), #double check this one
             axis=1, 
             result_type='broadcast',
         )
 
     def apply_snv(self):
-        # return raw_data.sub(raw_data.mean(axis=1), axis=0).div(raw_data.std(axis=1, ddof=0), axis=0)
+        """ Applies Standard Normal Variate Normalization"""
         sub_by_mean = self.working_data.sub(self.working_data.mean(1), axis=0)
         self.working_data = sub_by_mean.div(self.working_data.std(1), axis=0)
 
 
     def apply_wlsb(self):
+        """ Applies Assymmetric Weighed Least Squares Baseline with a different algorithm"""
         corr = bl.Baseline()
         
         def test(x): 
@@ -47,7 +63,8 @@ class Preprocessor:
             result_type='broadcast',
         )
 
-    def apply_wlsb2(self, y, lam=1e4, ratio=0.05, itermax=100):
+    def apply_wlsb_ver2(self, y, lam=1e4, ratio=0.05, itermax=100):
+        """ Applies Assymmetric Weighed Least Squares Baseline with a different algorithm"""
         N = len(y)
         D = sparse.eye(N, format='csc')
         D = D[1:] - D[:-1]  # numpy.diff( ,2) does not work with sparse matrix. This is a workaround.
@@ -69,7 +86,8 @@ class Preprocessor:
             w = wt
         return z
 
-    def apply_wlsb3(self, y, lam=10, p=0.1, niter=10):
+    def apply_wlsb_ver3(self, y, lam=10, p=0.1, niter=10):
+        """ Applies Assymmetric Weighed Least Squares Baseline with a different algorithm"""
         L = len(y)
         D = sparse.diags([1,-2,1],[0,-1,-2], shape=(L,L-2))
         w = np.ones(L)
@@ -81,9 +99,16 @@ class Preprocessor:
         return z
 
     def apply_meancenter(self):
+        """ Applies Mean Centering"""
         self.working_data = self.working_data - self.working_data.mean()
     
     def preprocess(self, preprocess_list):
+        """ Func for applying preprocessing methods based on provided list
+
+        :param preprocess_list: list of preprocessing methods, list
+        :return: preprocessed data
+        :rtype: dataframe
+        """
         for technique in preprocess_list:
             if technique == "SG":
                 self.apply_sg()
