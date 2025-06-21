@@ -9,7 +9,7 @@ Python package for IPLS using identified peak areas in the spectra
 ### Testing
   * Run the ff on main directory. It should give out the performance metrics, along with the settings, for each model created.
 ```
-poetry run python main.py
+poetry run python src/main.py
 ```
 
 ### Dependencies
