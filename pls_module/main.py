@@ -1,6 +1,6 @@
 import warnings
 
-from pls_module import IPLSModeler
+from .plsmanager import IPLSModeler
 
 def list_pls_models_test(file_path, disable_warnings=False):
     if disable_warnings:
