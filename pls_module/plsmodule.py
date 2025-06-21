@@ -37,7 +37,7 @@ class IPLSModeler:
         self.working_xblock = None
         self.working_yblock = None
 
-        # settings
+        # Settings
         self.pts_list = []
         self.regions_list = []
         self.preproc_list = []
@@ -53,6 +53,7 @@ class IPLSModeler:
         self.org_xblock = self.data_organizer.give_xblock()
         self.org_yblock = self.data_organizer.give_yblock()
         self.data_filterer.load_data(self.org_xblock, self.org_yblock)
+        
         self.working_xblock = self.org_xblock
         self.working_yblock = self.org_yblock
         
@@ -67,7 +68,6 @@ class IPLSModeler:
             self.preprocessor.load_data(self.working_xblock)
             self.working_xblock = self.preprocessor.preprocess(preproc_list)
 
-    # for setting up lists
     def pick_preproc(self, picked_preproc):
         """ Func for accepting preprocessing methods to be used
 
@@ -112,9 +112,13 @@ class IPLSModeler:
                     for region_comb in combinations(self.regions_list, region_num):
     
                         for preproc_num in range(0, len(self.preproc_list)+1):
-                            for preproc_comb in permutations(self.preproc_list, preproc_num):
-                                if all([region_comb, preproc_comb]):
-                                    self.settings_list.append([pt_comb, region_comb, preproc_comb])
+                            if self.preproc_list:
+                                for preproc_comb in permutations(self.preproc_list, preproc_num):
+                                    if all([region_comb, preproc_comb, "MC" not in preproc_comb[0:-1]]):
+                                        self.settings_list.append([pt_comb, region_comb, preproc_comb])
+                            else:
+                                self.settings_list.append([pt_comb, region_comb, []])
+
         return self.settings_list
 
     def get_ipls_results(self):
@@ -123,16 +127,18 @@ class IPLSModeler:
         :return: list containing performance metrics of each created model, along with its setting
         :rtype: list
         """
-        for settings in self.settings_list:
+        for settings_num in range(0, len(self.settings_list)):
+            settings = self.settings_list[settings_num]
             self.organize_data()
             self.select_region(settings[1])
             
             self.remove_point(settings[0])
-            self.do_preprocessing(settings[2])
+            if self.preproc_list:
+                self.do_preprocessing(settings[2])
             
             self.model_creator.load_data(self.working_xblock, self.working_yblock)
             results = (self.model_creator.create_pls_model(), settings)
-            
-            print(results)
+
+            print(f"{settings_num+1}oo{len(self.settings_list)}: {results}")
             self.results_list.append(results)
         return self.results_list
