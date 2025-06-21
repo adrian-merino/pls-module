@@ -6,10 +6,22 @@ from scipy.stats import pearsonr
     
 class ModelCreator:
     def load_data(self, x, y):
+        """ Loads data to DataSelector object
+
+        :param x: list of variable values, list
+        :param y: list of response values, list
+        """
         self.working_xblock = x
         self.working_yblock = y
         
     def create_pls_model(self, n_comp=1):
+        """ Remove samples from provided list
+
+        :param n_comp: number of latent variables to be used for the model, int
+        :return: list of performance metrics:R2 calibration and cross-validation per scikit-learn,
+        r2 calibration and cross-validation as per pearson correlation tests, rmse errors
+        :rtype: tuple
+        """
         # Autoscale Y-block
         autoscaler = StandardScaler()
         y_autoscaled = autoscaler.fit_transform(self.working_yblock.to_numpy().reshape(-1, 1))

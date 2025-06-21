@@ -16,5 +16,4 @@ class DataManager:
 
         if trim:
             return df.iloc[:, 9:]
-            # df = trimmed_df.iloc[0, :].to_list()
         return df

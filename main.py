@@ -1,10 +1,6 @@
-from pls_module import PLSModeler, IPLSModeler
-
 import warnings
 
-def create_pls_model():
-    pls_modeler = PLSModeler("test2.csv")
-    return pls_modeler.give_model()
+from pls_module import IPLSModeler
 
 def list_pls_models_test(file_path, disable_warnings=False):
     if disable_warnings:
@@ -20,5 +16,4 @@ def list_pls_models_test(file_path, disable_warnings=False):
     a.get_ipls_results()
 
 if __name__ == "__main__":
-    print(create_pls_model())
-    list_pls_models_test("test3.csv", True)
+    list_pls_models_test("tests/test_data.csv", True)
