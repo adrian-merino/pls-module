@@ -27,5 +27,6 @@ poetry run python src/main.py
  * pandas
  * scikit-learn
  * brukeropusreader
+ * pybaselines
 
  
