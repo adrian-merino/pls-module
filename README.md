@@ -7,7 +7,11 @@ Python package for IPLS using identified peak areas in the spectra
   * Package is for creating PLS models with all possible combinations of specified configurations, which is the full-factorial approach design of experiments. This is helpful if all possible approaches to model creation for spectral data are to be explored.
 
 ### Testing
-  * Run the ff on main directory. It should give out the performance metrics, along with the settings, for each model created.
+  * To install independencies, go to main directory and run:
+```
+poetry install
+```
+  * Run the ff on main directory to model using the test data. It should give out the performance metrics, along with the settings, for each model created.
 ```
 poetry run python main.py
 ```
